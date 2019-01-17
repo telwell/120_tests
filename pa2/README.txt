@@ -64,7 +64,7 @@ sets the policy to LIFO.
 
 Additionally, all of the tests can be run from this directory by running
 
-    make tests
+    make test
 
 The pa2 directory can then be cleaned up from this directory by running
 
