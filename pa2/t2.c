@@ -31,7 +31,7 @@
 
 void Main ()
 {
-    DPrintf("Expect the following string:\n11111111112222222222333333333344444444445555555555\n");
+    DPrintf("Expect the following string:\n55555555552222222222333333333344444444441111111111\n");
     if (Fork () == 0) {
         if (Fork () == 0) {
             SlowPrintf (5, "5555555555");		// process 5

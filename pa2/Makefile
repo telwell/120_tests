@@ -1,31 +1,45 @@
 # Makefile to compile Umix Programming Assignment 2 (pa2)
 
 LIBDIR = $(UMIXPUBDIR)/lib
-# LIBDIR = $(UMIXROOTDIR)/sys
+PA2DIR = $(HOME)/pa2
 
 CC 	= cc 
 FLAGS 	= -g -L$(LIBDIR) -lumix2
 
-PA2 =	pa2a pa2b pa2c
-TESTS = t1
+TESTS = t1 t2
+TESTDEPS = t1.c t2.c schedarbitrary.h schedfifo.h schedlifo.h
 
-pa2:	$(PA2)
 test:  $(TESTS)
 
-t1:	t1.c aux.h umix.h mycode2.o
-	$(CC) $(FLAGS) -o t1 t1.c mycode2.o
+$(PA2DIR)/mycode2arbitrary.o:	$(PA2DIR)/mycode2.c $(PA2DIR)/aux.h $(PA2DIR)/sys.h $(PA2DIR)/mycode2.h schedarbitrary.h
+	cp schedarbitrary.h $(PA2DIR)
+	cd $(PA2DIR) && \
+	  $(CC) $(FLAGS) -o mycode2arbitrary.o -c mycode2.c -include schedarbitrary.h
 
-pa2a:	pa2a.c aux.h umix.h mycode2.o
-	$(CC) $(FLAGS) -o pa2a pa2a.c mycode2.o
+$(PA2DIR)/mycode2fifo.o:	$(PA2DIR)/mycode2.c $(PA2DIR)/aux.h $(PA2DIR)/sys.h $(PA2DIR)/mycode2.h schedfifo.h
+	cp schedfifo.h $(PA2DIR)
+	cd $(PA2DIR) && \
+	  $(CC) $(FLAGS) -o mycode2fifo.o -c mycode2.c -include schedfifo.h
 
-pa2b:	pa2b.c aux.h umix.h mycode2.o
-	$(CC) $(FLAGS) -o pa2b pa2b.c mycode2.o
+$(PA2DIR)/mycode2lifo.o:	$(PA2DIR)/mycode2.c $(PA2DIR)/aux.h $(PA2DIR)/sys.h $(PA2DIR)/mycode2.h schedlifo.h
+	cp schedlifo.h $(PA2DIR)
+	cd $(PA2DIR) && \
+	  $(CC) $(FLAGS) -o mycode2lifo.o -c mycode2.c -include schedlifo.h
 
-pa2c:	pa2c.c aux.h umix.h mycode2.o
-	$(CC) $(FLAGS) -o pa2c pa2c.c mycode2.o
+t1:	t1.c $(PA2DIR)/aux.h $(PA2DIR)/umix.h $(PA2DIR)/mycode2fifo.o
+	cp t1.c $(PA2DIR)
+	cd $(PA2DIR) && \
+	  $(CC) $(FLAGS) -o t1 t1.c mycode2fifo.o
+	cd $(PA2DIR) && \
+	  ./t1
 
-mycode2.o:	mycode2.c aux.h sys.h mycode2.h
-	$(CC) $(FLAGS) -c mycode2.c
+t2:	t2.c $(PA2DIR)/aux.h $(PA2DIR)/umix.h $(PA2DIR)/mycode2lifo.o
+	cp t2.c $(PA2DIR)
+	cd $(PA2DIR) && \
+	  $(CC) $(FLAGS) -o t2 t2.c mycode2lifo.o
+	cd $(PA2DIR) && \
+	  ./t2
 
 clean:
-	rm -f *.o $(PA2) $(TESTS)
+	cd $(PA2DIR) && \
+	  rm -f *.o $(TESTS) $(TESTDEPS)
