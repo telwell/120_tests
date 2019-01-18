@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <assert.h>
+#include "sys.h"
 #include "aux.h"
 #include "umix.h"
 
@@ -32,6 +34,10 @@
 void Main ()
 {
     DPrintf("Expect the following string:\n11111111112222222222333333333344444444445555555555\n");
+    if (GetSchedPolicy() != FIFO) {
+        DPrintf("ERROR: Policy is not set to FIFO. Please manually set policy to FIFO in mycode2.c.");
+        Exit();
+    }
     if (Fork () == 0) {
         if (Fork () == 0) {
             SlowPrintf (5, "5555555555");		// process 5
