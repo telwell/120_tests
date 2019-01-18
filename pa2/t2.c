@@ -32,9 +32,9 @@
 
 void Main ()
 {
-    DPrintf("Expect the following string:\n11111111112222222222333333333344444444445555555555\n");
-    if (GetSchedPolicy() != FIFO) {
-        DPrintf("ERROR: Policy is not set to FIFO. Please manually set policy to FIFO in mycode2.c.");
+    DPrintf("Expect the following string:\n55555555552222222222333333333344444444441111111111\n");
+    if (GetSchedPolicy() != LIFO) {
+        DPrintf("ERROR: Policy is not set to LIFO. Please manually set policy to LIFO in mycode2.c.");
         Exit();
     }
     if (Fork () == 0) {
