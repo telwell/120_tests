@@ -25,6 +25,17 @@ $(PA2DIR)/mycode2lifo.o:	$(PA2DIR)/mycode2.c $(PA2DIR)/aux.h $(PA2DIR)/sys.h $(P
 	@cp schedlifo.h $(PA2DIR)
 	@cd $(PA2DIR) && \
 	  $(CC) $(FLAGS) -o mycode2lifo.o -c mycode2.c -include schedlifo.h
+	
+$(PA2DIR)/mycode2roundrobin.o:	$(PA2DIR)/mycode2.c $(PA2DIR)/aux.h $(PA2DIR)/sys.h $(PA2DIR)/mycode2.h schedroundrobin.h
+	@cp schedroundrobin.h $(PA2DIR)
+	@cd $(PA2DIR) && \
+	  $(CC) $(FLAGS) -o mycode2roundrobin.o -c mycode2.c -include schedroundrobin.h
+	
+$(PA2DIR)/mycode2proportional.o:	$(PA2DIR)/mycode2.c $(PA2DIR)/aux.h $(PA2DIR)/sys.h $(PA2DIR)/mycode2.h schedproportional.h
+	@cp schedproportional.h $(PA2DIR)
+	@cd $(PA2DIR) && \
+	  $(CC) $(FLAGS) -o mycode2proportional.o -c mycode2.c -include schedproportional.h
+
 
 t1:	t1.c $(PA2DIR)/aux.h $(PA2DIR)/umix.h $(PA2DIR)/mycode2fifo.o
 	@cp t1.c $(PA2DIR)
