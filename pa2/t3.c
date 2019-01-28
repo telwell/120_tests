@@ -1,3 +1,6 @@
+/* No test implemented yet.
+ */
+
 #include <stdio.h>
 #include "aux.h"
 #include "umix.h"

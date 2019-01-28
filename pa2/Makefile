@@ -7,7 +7,7 @@ CC 	= cc
 FLAGS 	= -g -L$(LIBDIR) -lumix2
 
 TESTS = t1 t2 t3 t4
-TESTDEPS = t1.c t2.c schedarbitrary.h schedfifo.h schedlifo.h schedroundrobin.h schedproportional.h
+TESTDEPS = t1.c t2.c t3.c t4.c t4count.sh t4output1.txt schedarbitrary.h schedfifo.h schedlifo.h schedroundrobin.h schedproportional.h
 
 test:  $(TESTS)
 
@@ -59,8 +59,9 @@ t3:	t3.c $(PA2DIR)/aux.h $(PA2DIR)/umix.h $(PA2DIR)/mycode2roundrobin.o
 	
 t4:	t4.c $(PA2DIR)/aux.h $(PA2DIR)/umix.h $(PA2DIR)/mycode2proportional.o
 	@cp t4.c $(PA2DIR)
+	@cp t4count.sh $(PA2DIR)
 	@cd $(PA2DIR) && \
-	  $(CC) $(FLAGS) -o t4 t4.c mycode2roundrobin.o
+	  $(CC) $(FLAGS) -o t4 t4.c mycode2proportional.o
 	cd $(PA2DIR) && \
 	  ./t4
 
