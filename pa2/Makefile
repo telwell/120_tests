@@ -36,7 +36,6 @@ $(PA2DIR)/mycode2proportional.o:	$(PA2DIR)/mycode2.c $(PA2DIR)/aux.h $(PA2DIR)/s
 	@cd $(PA2DIR) && \
 	  $(CC) $(FLAGS) -o mycode2proportional.o -c mycode2.c -include schedproportional.h
 
-
 t1:	t1.c $(PA2DIR)/aux.h $(PA2DIR)/umix.h $(PA2DIR)/mycode2fifo.o
 	@cp t1.c $(PA2DIR)
 	@cd $(PA2DIR) && \
@@ -50,6 +49,20 @@ t2:	t2.c $(PA2DIR)/aux.h $(PA2DIR)/umix.h $(PA2DIR)/mycode2lifo.o
 	  $(CC) $(FLAGS) -o t2 t2.c mycode2lifo.o
 	cd $(PA2DIR) && \
 	  ./t2
+	
+t3:	t3.c $(PA2DIR)/aux.h $(PA2DIR)/umix.h $(PA2DIR)/mycode2roundrobin.o
+	@cp t3.c $(PA2DIR)
+	@cd $(PA2DIR) && \
+	  $(CC) $(FLAGS) -o t3 t3.c mycode2roundrobin.o
+	cd $(PA2DIR) && \
+	  ./t3
+	
+t4:	t4.c $(PA2DIR)/aux.h $(PA2DIR)/umix.h $(PA2DIR)/mycode2proportional.o
+	@cp t4.c $(PA2DIR)
+	@cd $(PA2DIR) && \
+	  $(CC) $(FLAGS) -o t4 t4.c mycode2roundrobin.o
+	cd $(PA2DIR) && \
+	  ./t4
 
 clean:
 	@cd $(PA2DIR) && \
