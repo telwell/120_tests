@@ -6,8 +6,8 @@ PA2DIR = $(HOME)/pa2
 CC 	= cc 
 FLAGS 	= -g -L$(LIBDIR) -lumix2
 
-TESTS = t1 t2
-TESTDEPS = t1.c t2.c schedarbitrary.h schedfifo.h schedlifo.h
+TESTS = t1 t2 t3 t4
+TESTDEPS = t1.c t2.c schedarbitrary.h schedfifo.h schedlifo.h schedroundrobin.h schedproportional.h
 
 test:  $(TESTS)
 
