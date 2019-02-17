@@ -3,7 +3,7 @@
 #include "sys.h"
 #include "umix.h"
 
-/* Test cas replicating original setup in pa3d.c
+/* Tests cars replicating original setup in pa3d.c
  */
 
 void Main ()
