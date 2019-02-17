@@ -52,6 +52,18 @@ void Main ()
 		Exit ();
 	}
 
+	if (Fork () == 0) {
+		Delay (50);			// car 9
+		driveRoad (EAST, 40);
+		Exit ();
+	}
+
+	if (Fork () == 0) {
+		Delay (50);			// car 10
+		driveRoad (WEST, 40);
+		Exit ();
+	}
+
     Delay(10);
 	driveRoad (EAST, 40);			// car 1
 

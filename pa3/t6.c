@@ -6,7 +6,9 @@
 #define NBLOCK 5
 
 /* Tests starvation. If car 1 is last, there is likely starvation, as car 1 is
- * the first car to want to go after 2.
+ * the first car to want to go after 2. Specifically this checks if your
+ * semaphores simply store/retrieve each semaphore block as the first
+ * available/matching entry in a list.
  */
 
 void Main ()
