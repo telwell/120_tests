@@ -66,4 +66,4 @@ $(call add_test,2)
 $(call add_test,3)
 $(call add_test,4)
 $(call add_test,5)
-
+$(call add_test,rand)
