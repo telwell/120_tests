@@ -6,7 +6,7 @@ import subprocess
 # and
 #     ./mytrand seed
 
-max_seed = 100
+max_seed = 1000
 success = 0
 failure = 0
 failures = []
