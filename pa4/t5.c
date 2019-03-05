@@ -5,19 +5,26 @@
 #define INITTHREADS 5
 #define WASTESIZE 400
 #define DEPTH 100
-#define CHAR 'q'
+#define FIRSTCHAR 'a'
 
-/* Tests if stacks get overwritten (within reasonable bounds) */
+static char wasters[INITTHREADS];
+
+/* Tests if stacks get overwritten (within reasonable bounds).
+ * Note that the given implementation breaks somewhere near
+ * DEPTH = 100 and WASTESIZE = 550.
+ */
 
 /* Tracks the yields as a comma separated list. src->dest indicates
- * that thread src yielded to thread dest.
+ * that thread src yielded to thread dest. Also tracks if any char
+ * in the first stack of each thread is overwritten. bfr->aft
+ * indicates that the char bfr was changed to the character aft.
  */
 
 void recursiveSpaceWaster(int i) {
     char stuff[WASTESIZE];
 
     for (int j = 0; j < WASTESIZE; j++) {
-        stuff[j] = CHAR;
+        stuff[j] = wasters[GetThread()];
     }
     Printf(",%d", GetThread());
     YieldThread((GetThread() + 1) % INITTHREADS);
@@ -29,10 +36,19 @@ void recursiveSpaceWaster(int i) {
     if (i > 0) {
         recursiveSpaceWaster(i - 1);
     }
+    if (i == DEPTH) {
+        for (int j = 0;j < WASTESIZE; j++) {
+            Printf(",(%c->%c)", wasters[GetThread()], stuff[j]);
+        }
+    }
 }
 
 void Main() {
     void wasteSpace();
+
+    for (char i = 0; i < INITTHREADS; i++) {
+        wasters[i] = FIRSTCHAR + i;
+    }
 
     InitThreads();
 
