@@ -17,7 +17,10 @@ static int init_threads;
 static int thread[MAXTHREADS];
 static int num_threads;
 
-/* Randomly tests FIFO behavior with yields */
+/* Randomly tests FIFO behavior with yields
+ * Note that this test is not designed to debug your code step-by-step,
+ * but to do some final, broad checking that your code is correct.
+ */
 
 /* Tracks the yields as a comma separated list. src->dest indicates
  * that thread src yielded to thread dest.
