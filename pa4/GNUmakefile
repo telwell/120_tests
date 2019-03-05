@@ -59,7 +59,7 @@ $(PA4DIR)/mycode4.o:	$(PA4DIR)/mycode4.c $(PA4DIR)/aux.h $(PA4DIR)/umix.h $(PA4D
 
 clean:
 	cd $(PA4DIR) && \
-	  rm -f *.o $(TESTS) $(TESTDEPS) $(RESULTS)
+	  rm -f *.o $(RESULTS) $(TESTS) $(TESTDEPS)
 
 $(call add_test,1)
 $(call add_test,2)
