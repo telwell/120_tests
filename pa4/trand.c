@@ -4,13 +4,13 @@
 #include "mycode4.h"
 
 // seed if none specified
-#define SEED         1237
+#define SEED          1237
 
-#define MAXTHREADS   10
-#define ITERS_BASE   200
-#define ITERS_RANGE  200
-#define YIELDS_RANGE 5
-#define CREATE_RANGE 5
+#define MAXTHREADS    10
+#define ITERS_BASE    200
+#define ITERS_RANGE   200
+#define YIELDS_RANGE  5
+#define CREATES_RANGE 5
 
 static int rem_iters;
 static int init_threads;
@@ -81,8 +81,8 @@ void Main(int argc, char** argv) {
 }
 
 void makeNewThread(int t) {
-    int num_yields = rand() % YIELD_RANGE; // yield up to 10 times
-    int num_try_create = (rand() % CREATE_RANGE) + 1; // try to create 1 to 5 threads
+    int num_yields = rand() % YIELDS_RANGE; // yield up to 10 times
+    int num_try_create = (rand() % CREATES_RANGE) + 1; // try to create 1 to 5 threads
     Printf("->%d", GetThread());
 
     for (int i = 0; i < num_yields; i++) {
@@ -90,7 +90,7 @@ void makeNewThread(int t) {
     }
 
     for (int i = 0; i < num_try_create; i++) {
-        if (num_try_create > rand() % CREATE_RANGE) { // slightly weight in favor of creating a thread
+        if (num_try_create > rand() % CREATES_RANGE) { // slightly weight in favor of creating a thread
             extendedCreateThread();
         }
     }

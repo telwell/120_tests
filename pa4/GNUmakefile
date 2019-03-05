@@ -8,9 +8,9 @@ CC 	= cc
 FLAGS 	= -g -L$(LIBDIR) -lumix4
 
 TESTS = t1 myt1 t2 myt2 t3 myt3 t4 myt4 t5 myt5 t6 myt6 t7 myt7 t8 myt8 t9 myt9 trand mytrand
-TESTDEPS = t1.c t2.c t3.c t4.c t5.c t6.c t7.c t8.c t9.c usemythread.h
+TESTDEPS = t1.c t2.c t3.c t4.c t5.c t6.c t7.c t8.c t9.c trand.c usemythread.h run_random_tests.py
 RESULTS = r1.txt myr1.txt r2.txt myr2.txt r3.txt myr3.txt r4.txt myr4.txt r5.txt myr5.txt \
-	r6.txt myr6.txt r7.txt myr7.txt r8.txt myr8.txt r9.txt myr9.txt
+	r6.txt myr6.txt r7.txt myr7.txt r8.txt myr8.txt r9.txt myr9.txt rrand.txt myrrand.txt
 
 define test_source_template
 $(PA4DIR)/t$(1).c: t$(1).c
@@ -57,13 +57,19 @@ $(PA4DIR)/mycode4.o:	$(PA4DIR)/mycode4.c $(PA4DIR)/aux.h $(PA4DIR)/umix.h $(PA4D
 	cd $(PA4DIR) && \
 	  $(CC) $(FLAGS) -c mycode4.c
 
-clean:
-	cd $(PA4DIR) && \
-	  rm -f *.o $(RESULTS) $(TESTS) $(TESTDEPS)
-
 $(call add_test,1)
 $(call add_test,2)
 $(call add_test,3)
 $(call add_test,4)
 $(call add_test,5)
 $(call add_test,rand)
+
+runtrandall:	$(PA4DIR)/trand $(PA4DIR)/mytrand
+	@cp run_random_tests.py $(PA4DIR)
+	@cd $(PA4DIR) && \
+	  python run_random_tests.py
+
+clean:
+	cd $(PA4DIR) && \
+	  rm -f *.o $(RESULTS) $(TESTS) $(TESTDEPS)
+
