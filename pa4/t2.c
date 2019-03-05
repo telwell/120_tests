@@ -6,29 +6,31 @@
 
 /* Test self yielding */
 
-void Main()
-{
-	void doYieldStuff();
+/* Tracks the yields as a comma separated list. src->dest indicates
+ * that thread src yielded to thread dest.
+ */
 
-	InitThreads ();
+void Main() {
+    void doYieldStuff();
 
-    Printf("C->%d", GetThread());
-	for (int i = 0; i < NUMYIELDS; i++) {
-	    CreateThread(doYieldStuff, i + 1);
+    InitThreads ();
+
+    Printf("->%d", GetThread());
+    for (int i = 0; i < NUMYIELDS; i++) {
+        CreateThread(doYieldStuff, i + 1);
         Printf(",%d", GetThread());
-		YieldThread(GetThread());
+        YieldThread(GetThread());
         Printf("->%d", GetThread());
-	}
+    }
     Printf(",%d", GetThread());
     YieldThread(1);
     Printf("->%d", GetThread());
 
-	ExitThread ();
+    ExitThread();
 }
 
-void doYieldStuff(t)
-	int t;				// this thread id
-{
+// t is this thread's id
+void doYieldStuff(int t) {
     Printf("->%d", GetThread());
 	for (int i = 0; i < NUMYIELDS; i++) {
         Printf(",%d", GetThread());
