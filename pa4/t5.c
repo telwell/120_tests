@@ -3,68 +3,72 @@
 #include "mycode4.h"
 
 #define INITTHREADS 5
-#define WASTESIZE 400
-#define DEPTH 100
-#define FIRSTCHAR 'a'
+#define MAXTHREADS 10
+#define BASESTEP 3
+#define MAXITERS 50
 
-static char wasters[INITTHREADS];
+static int thread[MAXTHREADS];
+static int num_threads;
+static int num_iters;
 
-/* Tests if stacks get overwritten (within reasonable bounds).
- * Note that the given implementation breaks somewhere near
- * DEPTH = 100 and WASTESIZE = 550.
- */
+/* Tests FIFO with yield */
 
 /* Tracks the yields as a comma separated list. src->dest indicates
- * that thread src yielded to thread dest. Also tracks if any char
- * in the first stack of each thread is overwritten. bfr->aft
- * indicates that the char bfr was changed to the character aft.
+ * that thread src yielded to thread dest.
  */
 
-void recursiveSpaceWaster(int i) {
-    char stuff[WASTESIZE];
+void extendedInitThreads() {
+    num_threads = 1;
+    thread[0] = 1;
+    for (int i = 1; i < MAXTHREADS; i++) {
+        thread[i] = 0;
+    }
+    InitThreads();
+}
 
-    for (int j = 0; j < WASTESIZE; j++) {
-        stuff[j] = wasters[GetThread()];
+void extendedCreateThread() {
+    void makeNewThread();
+    if (num_threads < MAXTHREADS && num_iters++ < MAXITERS) {
+        thread[CreateThread(makeNewThread, 0)] = 1;
+        num_threads++;
     }
-    Printf(",%d", GetThread());
-    YieldThread((GetThread() + 1) % INITTHREADS);
-    Printf("->%d", GetThread());
-    if (((int) &stuff[WASTESIZE-1]) - ((int) &stuff[0]) + 1 != WASTESIZE) {
-        Printf ("\nStack space reservation failed\n");
-        Exit ();
-    }
-    if (i > 0) {
-        recursiveSpaceWaster(i - 1);
-    }
-    if (i == DEPTH) {
-        for (int j = 0;j < WASTESIZE; j++) {
-            Printf(",(%c->%c)", wasters[GetThread()], stuff[j]);
+}
+
+void extendedYieldThread() {
+    int t = (GetThread() + BASESTEP) % MAXTHREADS;
+    for (; t != GetThread(); t = (t + 1) % MAXTHREADS) {
+        if (thread[t]) {
+            break;
         }
     }
+    Printf(",%d", GetThread());
+    YieldThread(t);
+    Printf("->%d", GetThread());
+}
+
+void extendedExitThread() {
+    thread[GetThread()] = 0;
+    num_threads--;
+    Printf(",%d", GetThread());
+    ExitThread();
 }
 
 void Main() {
-    void wasteSpace();
-
-    for (char i = 0; i < INITTHREADS; i++) {
-        wasters[i] = FIRSTCHAR + i;
-    }
-
-    InitThreads();
+    extendedInitThreads();
 
     Printf("->%d", GetThread());
-    for (int i = 1; i < INITTHREADS; i++) {
-        CreateThread(wasteSpace, 0);
+    for (int i = 0; i < INITTHREADS; i++) {
+        extendedCreateThread();
     }
 
-    recursiveSpaceWaster(DEPTH);
-    Printf(",%d", GetThread());
-    ExitThread();
+    extendedYieldThread();
+    extendedExitThread();
 }
 
-void wasteSpace(int t) {
+void makeNewThread(int t) {
     Printf("->%d", GetThread());
-    recursiveSpaceWaster(DEPTH);
-    Printf(",%d", GetThread());
-    ExitThread();
+    extendedCreateThread();
+
+    extendedYieldThread();
+    extendedExitThread();
 }

@@ -62,6 +62,10 @@ $(call add_test,2)
 $(call add_test,3)
 $(call add_test,4)
 $(call add_test,5)
+$(call add_test,6)
+$(call add_test,7)
+$(call add_test,8)
+$(call add_test,9)
 $(call add_test,rand)
 
 runtrandall:	$(PA4DIR)/trand $(PA4DIR)/mytrand
